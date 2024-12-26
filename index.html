@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            display: block;
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        .navigation {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navigation button {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 1.2em;
+        }
+
+        .navigation button:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .thumbnails {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .thumbnails img {
+            width: 60px;
+            height: 40px;
+            object-fit: cover;
+            margin: 0 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .thumbnails img.active {
+            border-color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .caption {
+                font-size: 1em;
+                padding: 5px;
+            }
+
+            .navigation button {
+                font-size: 1em;
+            }
+
+            .thumbnails img {
+                width: 50px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slider-container">
+        <div class="slides">
+            <div class="slide">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRplCC4v8mtco2KFFPzsEEvNUav4rOWF9YwTQ&s" alt="Machu Picchu">
+                <div class="caption">Machu Picchu, Peru - Adventure is never far away</div>
+            </div>
+            <div class="slide">
+                <img src="https://s.itl.cat/pngfile/s/185-1859412_landscape-nature-scenery-wallpaper-full-hd-beautiful-nature.jpg" alt="Mountains">
+                <div class="caption">Majestic Mountains - A sight to behold</div>
+            </div>
+            <div class="slide">
+                <img src="https://img.freepik.com/free-photo/view-breathtaking-beach-nature-landscape_23-2151682903.jpg" alt="Forest">
+                <div class="caption">Serene Forest - Embrace the calm</div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button id="prev">&#10094;</button>
+            <button id="next">&#10095;</button>
+        </div>
+
+        <div class="thumbnails">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRplCC4v8mtco2KFFPzsEEvNUav4rOWF9YwTQ&s" alt="Thumbnail 1">
+            <img src="https://s.itl.cat/pngfile/s/185-1859412_landscape-nature-scenery-wallpaper-full-hd-beautiful-nature.jpg" alt="Thumbnail 2">
+            <img src="https://img.freepik.com/free-photo/view-breathtaking-beach-nature-landscape_23-2151682903.jpg" alt="Thumbnail 3">
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelector('.slides');
+        const slideImages = document.querySelectorAll('.slide');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const thumbnails = document.querySelectorAll('.thumbnails img');
+
+        let currentIndex = 0;
+
+        function updateSlider() {
+            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + slideImages.length) % slideImages.length;
+            updateSlider();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % slideImages.length;
+            updateSlider();
+        });
+
+        thumbnails.forEach((thumb, index) => {
+            thumb.addEventListener('click', () => {
+                currentIndex = index;
+                updateSlider();
+            });
+        });
+
+        updateSlider();
+    </script>
+</body>
+</html>
